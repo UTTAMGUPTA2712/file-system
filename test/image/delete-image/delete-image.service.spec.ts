@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { FirebaseDeleteFileHandler } from 'src/features/firebase/delete-file/delete-file.service';
 import { DeleteImageHandler } from 'src/features/image/delete-image/delete-image.service';
-import { FirebaseService } from 'src/infrastructure/firebase/firebase.service';
+import { FirebaseService } from 'src/infrastructure/storage/firebase/firebase.service';
 
 jest.mock('firebase-admin', () => {
   const fileMock = {

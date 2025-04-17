@@ -1,14 +1,12 @@
-import { firebaseConfig } from './infrastructure/firebase/firebase-config';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { ImageModule } from './features/image/image.module';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { Module } from '@nestjs/common';
-import { FirebaseModule } from './features/firebase/firebase.module';
 import * as admin from 'firebase-admin';
 
 @Module({
-  imports: [ConfigModule.forRoot({ isGlobal: true }), ImageModule, FirebaseModule],
+  imports: [ConfigModule.forRoot({ isGlobal: true }), ImageModule],
   controllers: [AppController],
   providers: [
     AppService,
@@ -20,9 +18,9 @@ import * as admin from 'firebase-admin';
         if (!admin.apps.length) {
           admin.initializeApp({
             credential: admin.credential.cert(
-              configService.get<string>('FB_CREDENTIALS_PATH'),
+              configService.get<string>('GCS_CREDENTIALS_PATH'),
             ),
-            storageBucket: firebaseConfig.storageBucket,
+            storageBucket: configService.get<string>('STORAGE_BUCKET'),
           });
         }
         return admin;

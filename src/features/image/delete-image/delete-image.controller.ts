@@ -2,23 +2,23 @@ import { Controller, Res, Delete, Body, HttpStatus } from '@nestjs/common';
 import { DeleteImageHandler } from './delete-image.service';
 import { Response } from 'express';
 
-@Controller('image')
+@Controller('images')
 export class DeleteImageController {
   constructor(private readonly deleteImageHandler: DeleteImageHandler) {}
 
-  @Delete('delete')
+  @Delete()
   async handle(
     @Res() res: Response,
     @Body() { publicUrl }: { publicUrl: string },
   ) {
-    console.log('publicUrl:', publicUrl);
-    try {
-      const result = await this.deleteImageHandler.handler(publicUrl);
+    const result = await this.deleteImageHandler.handler(publicUrl);
+
+    if (result.success) {
       return res.status(HttpStatus.OK).json(result);
-    } catch (err) {
+    } else {
       return res
-        .status(HttpStatus.INTERNAL_SERVER_ERROR)
-        .json({ success: false, error: err.message });
+        .status(HttpStatus.BAD_REQUEST)
+        .json(result);
     }
   }
 }

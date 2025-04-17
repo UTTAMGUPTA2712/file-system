@@ -10,20 +10,22 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import { UploadImageHandler } from './upload-image.service';
 import { Response } from 'express';
 
-@Controller('image')
+@Controller('images')
 export class UploadImageController {
   constructor(private readonly uploadImageHandler: UploadImageHandler) {}
 
   @Post('/upload')
   @UseInterceptors(FileInterceptor('file'))
-  async handle(@UploadedFile() file, @Res() res: Response) {
-    try {
-      const result: any = await this.uploadImageHandler.handle(file);
+  async handle(@UploadedFile() file: Express.Multer.File, @Res() res: Response) {
+
+    const result = await this.uploadImageHandler.handle(file);
+
+    if (result.success) {
       return res.status(HttpStatus.CREATED).json(result);
-    } catch (err) {
+    } else {
       return res
-        .status(HttpStatus.INTERNAL_SERVER_ERROR)
-        .json({ success: false, error: err.message });
+        .status(HttpStatus.BAD_REQUEST)
+        .json(result);
     }
   }
 }

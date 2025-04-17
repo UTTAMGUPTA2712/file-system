@@ -2,7 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import * as fs from 'fs';
 import { FirebaseUploadFileHandler } from 'src/features/firebase/upload-file/upload-file.service';
 import { UploadImageHandler } from 'src/features/image/upload-image/upload-image.service';
-import { FirebaseService } from 'src/infrastructure/firebase/firebase.service';
+import { FirebaseService } from 'src/infrastructure/storage/firebase/firebase.service';
 
 // Mock the Firebase admin SDK
 jest.mock('firebase-admin', () => {

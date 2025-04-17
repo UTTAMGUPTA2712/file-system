@@ -3,7 +3,9 @@
 /node_modules
 /build
 /src/temp
+/uploads
 
+.env
 # Logs
 logs
 *.log
